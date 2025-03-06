@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "category": 1,
+        "postDate": "2024-02-06",
+        "featureImage": "https://www.amazon.in/Canon-24-2MP-Mirrorless-Digital-Stabilisation/dp/B0B27NSHB4/ref=sr_1_3?crid=1U4EPILI8W4FC&dib=eyJ2IjoiMSJ9._bcoCXnhJ9mVmmcOHc3DN2KrqtI6YfE1iIlhd7bUpD9oKYEICEhCpVucRH2JcJJurRTaogsJhi1PxgrGW_Un7EJr32Ln77ux0WBPsj5X4InBlsDfH7l7wrWMibeAXtCseErikHjOVQbG8RsKrPpqtwtav1eoskBvyOUA-yvS8k_ZOw1ED1PPoNnwptiNBZhCM5yc2vM-xtH0aSgp1o8pt_XUv9LpJmNuuNNQP8LoL8s.4Fuu3Kv39QgeCT0nyghWQ7mqAtbAM9F-fSAoFSo-U4k&dib_tag=se&keywords=Canon%2BEOS%2B90D%2BDSLR&nsdOptOutParam=true&qid=1738895408&sprefix=canon%2Beos%2B90d%2Bdslr%2Caps%2C280&sr=8-3&th=1",
+        "price": 1499.99,
+        "title": "Canon EOS R10D DSLR",
+        "body": "A versatile DSLR with 32.5MP resolution and 4K video recording.",
+        "published": true
+    },
+    {
+        "id": 2,
+        "category": 2,
+        "postDate": "2024-02-06",
+        "featureImage": "https://electronics.sony.com/imaging/interchangeable-lens-cameras/all-interchangeable-lens-cameras/p/ilce7m4-b",
+        "price": 2499.99,
+        "title": "Sony A7 IV Mirrorless",
+        "body": "A high-performance full-frame mirrorless camera with excellent autofocus.",
+        "published": true
+    },
+    {
+        "id": 3,
+        "category": 3,
+        "postDate": "2024-02-06",
+        "featureImage": "https://www.blackmagicdesign.com/products/blackmagicpocketcinemacamera/techspecs/W-CIN-16",
+        "price": 5999.99,
+        "title": "Blackmagic Pocket Cinema 6K Pro",
+        "body": "A cinema-grade camera with 6K resolution and RAW recording.",
+        "published": true
+    },
+    {
+        "id": 4,
+        "category": 4,
+        "postDate": "2024-02-06",
+        "featureImage": "https://www.tamron.com/global/consumer/lenses/a063/",
+        "price": 899.99,
+        "title": "Tamron 28-75mm f/2.8 Lens",
+        "body": "A high-quality zoom lens compatible with Sony mirrorless cameras.",
+        "published": true
+    },
+    {
+        "id": 5,
+        "category": 5,
+        "postDate": "2024-02-06",
+        "featureImage": "https://www.bhphotovideo.com/c/browse/godox/ci/52509?msclkid=dcca764e72df19bd440e11eb0229e8ed",
+        "price": 299.99,
+        "title": "Godox SL60W Video Light",
+        "body": "A powerful LED light with soft diffusion for cinematic lighting.",
+        "published": true
+    },
+    {
+        "id": 6,
+        "category": 6,
+        "postDate": "2024-02-06",
+        "featureImage": "https://www.dpreview.com/reviews/review-the-dji-mavic-air-2-is-the-best-all-around-drone-for-most-people",
+        "price": 999.99,
+        "title": "DJI Mavic Air 2 Drone",
+        "body": "A compact drone with 4K 60fps video recording and intelligent tracking.",
+        "published": true
+    },
+    {
+        "id": 7,
+        "category": 7,
+        "postDate": "2024-02-06",
+        "featureImage": "https://www.manfrotto.com/ca-en/290-xtra-alu-3-section-tripod-mt290xta3/",
+        "price": 199.99,
+        "title": "Manfrotto 290 Tripod",
+        "body": "A sturdy tripod with a fluid head for smooth panning shots.",
+        "published": true
+    },
+    {
+        "id": 8,
+        "category": 8,
+        "postDate": "2024-02-06",
+        "featureImage": "https://shop.sandisk.com/en-ca/products/memory-cards/sd-cards/sandisk-extreme-pro-uhs-i-sd?sku=SDSDXXD-128G-GN4IN",
+        "price": 129.99,
+        "title": "SanDisk Extreme Pro 128GB SD Card",
+        "body": "A high-speed memory card optimized for 4K video recording.",
+        "published": true
+    }
+]

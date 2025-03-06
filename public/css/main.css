@@ -1,0 +1,84 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light Gray */
+    color: #333; /* Dark Gray */
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #343a40 !important; /* Dark Theme */
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f8d210 !important; /* Highlight on hover */
+}
+
+/* About Section with Cinematography Background */
+section.main {
+    background: url('https://s.studiobinder.com/wp-content/uploads/2018/08/DP-Techniques-DP-Tips-StudioBinder-Header.jpg') no-repeat center center;
+    background-size: cover;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Add a dark overlay for better text readability */
+section.main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+    z-index: 1;
+    border-radius: 5px;
+}
+
+/* Ensure text is above the overlay */
+section.main article {
+    position: relative;
+    z-index: 2;
+}
+
+/* Right Column (Coming Soon) */
+aside {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #343a40;
+    color: white;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    section.main {
+        background-size: contain;
+    }
+}

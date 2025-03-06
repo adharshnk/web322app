@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "category": "DSLR Cameras"
+    },
+    {
+        "id": 2,
+        "category": "Mirrorless Cameras"
+    },
+    {
+        "id": 3,
+        "category": "Cinema Cameras"
+    },
+    {
+        "id": 4,
+        "category": "Lenses & Accessories"
+    },
+    {
+        "id": 5,
+        "category": "Lighting & Audio"
+    },
+    {
+        "id": 6,
+        "category": "Drones & Gimbals"
+    },
+    {
+        "id": 7,
+        "category": "Tripods & Stabilizers"
+    },
+    {
+        "id": 8,
+        "category": "Memory Cards & Storage"
+    }
+]

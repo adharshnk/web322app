@@ -33,6 +33,14 @@ function getPublishedItems() {
     });
 }
 
+function getPublishedItemsByCategory(category) {
+    return new Promise((resolve, reject) => {
+        let filteredItems = items.filter(item => item.published === true && item.category == category);
+        if (filteredItems.length > 0) resolve(filteredItems);
+        else reject("No results returned");
+    });
+}
+
 function getCategories() {
     return new Promise((resolve, reject) => {
         if (categories.length > 0) resolve(categories);
@@ -40,21 +48,16 @@ function getCategories() {
     });
 }
 
-// Part 2, Step 3: Add new item
 function addItem(itemData) {
     return new Promise((resolve, reject) => {
-        // Set published to false if undefined, true if checked
         itemData.published = itemData.published ? true : false;
-        // Set ID as length of items array + 1
         itemData.id = items.length + 1;
-        // Push to items array
+        itemData.postDate = new Date().toISOString().split('T')[0]; // Set postDate to current date
         items.push(itemData);
-        // Resolve with the new item
         resolve(itemData);
     });
 }
 
-// Part 4, Step 1: Get items by category
 function getItemsByCategory(category) {
     return new Promise((resolve, reject) => {
         const filteredItems = items.filter((item) => item.category == category);
@@ -66,7 +69,6 @@ function getItemsByCategory(category) {
     });
 }
 
-// Part 4, Step 2: Get items by minimum date
 function getItemsByMinDate(minDateStr) {
     return new Promise((resolve, reject) => {
         const filteredItems = items.filter(
@@ -80,7 +82,6 @@ function getItemsByMinDate(minDateStr) {
     });
 }
 
-// Part 4, Step 3: Get item by ID
 function getItemById(id) {
     return new Promise((resolve, reject) => {
         const item = items.find((item) => item.id == id);
@@ -96,6 +97,7 @@ module.exports = {
     initialize, 
     getAllItems, 
     getPublishedItems, 
+    getPublishedItemsByCategory,
     getCategories, 
     addItem, 
     getItemsByCategory, 

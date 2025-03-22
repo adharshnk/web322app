@@ -1,12 +1,12 @@
 /*********************************************************************************
-WEB322 – Assignment 03
+WEB322 – Assignment 04
 I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part * of this assignment has
 been copied manually or electronically from any other source (including 3rd party web sites) or distributed to other students.
 Name: Adharsh Nellikode Kaladharan
-Student ID:167892223 
-Date:06-02-2025
-Cyclic Web App URL: _______________________________________________________
-GitHub Repository URL: ______________________________________________________
+Student ID: 167892223 
+Date: 05-03-2025
+Cyclic Web App URL: https://github.senecapolytechnic.ca/pages/anellikodekaladharan/web322app/
+GitHub Repository URL: https://github.com/adharshnk/web322app.git
 ********************************************************************************/
 
 const express = require("express");
@@ -15,39 +15,72 @@ const storeService = require("./store-service");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const streamifier = require("streamifier");
+const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Configure Cloudinary
 cloudinary.config({
-    cloud_name: "your-cloud-name",
-    api_key: "197672481759547",
-    api_secret: "3wRPoCnIDhAVkuJPfYSQ8eiZozw",
+    cloud_name: process.env.CLOUD_NAME || "your-cloud-name",
+    api_key: process.env.CLOUDINARY_API_KEY || "197672481759547",
+    api_secret: process.env.CLOUDINARY_API_SECRET || "3wRPoCnIDhAVkuJPfYSQ8eiZozw",
     secure: true
 });
 
 const upload = multer();
 
-// Middleware to serve static files (CSS, images, etc.)
+// Handlebars Configuration
+app.engine('.hbs', exphbs.engine({
+    extname: '.hbs',
+    defaultLayout: 'main',
+    helpers: {
+        navLink: function(url, options) {
+            return '<li' + 
+                ((url == app.locals.activeRoute) ? ' class="active" ' : '') + 
+                '><a href="' + url + '" class="nav-link">' + options.fn(this) + '</a></li>';
+        },
+        equal: function(lvalue, rvalue, options) {
+            if (arguments.length < 3)
+                throw new Error("Handlebars Helper equal needs 2 parameters");
+            if (lvalue != rvalue) {
+                return options.inverse(this);
+            } else {
+                return options.fn(this);
+            }
+        },
+        safeHTML: function(html) {
+            return new Handlebars.SafeString(html);
+        }
+    }
+}));
+
+app.set('view engine', '.hbs');
+app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.static("public"));
 
-// Redirect root to /about
+app.use(function(req, res, next) {
+    let route = req.path.substring(1);
+    app.locals.activeRoute = "/" + (isNaN(route.split('/')[1]) ? route.replace(/\/(?!.*)/, "") : route.replace(/\/(.*)/, ""));
+    app.locals.viewingCategory = req.query.category;
+    next();
+});
+
+// Update root route to redirect to /shop
 app.get("/", (req, res) => {
-    res.redirect("/about");
+    res.redirect("/shop");
 });
 
-// Serve about.html
 app.get("/about", (req, res) => {
-    res.sendFile(path.join(__dirname, "views/about.html"));
+    res.render("about");
 });
 
-// Serve addItem.html
 app.get("/items/add", (req, res) => {
-    res.sendFile(path.join(__dirname, "views/addItem.html"));
+    res.render("addItem");
 });
 
-// Handle form submission for adding an item
 app.post("/items/add", upload.single("featureImage"), (req, res) => {
     if (req.file) {
         let streamUpload = (req) => {
@@ -80,63 +113,101 @@ app.post("/items/add", upload.single("featureImage"), (req, res) => {
     function processItem(imageUrl) {
         req.body.featureImage = imageUrl;
         storeService.addItem(req.body).then(() => {
-            res.redirect("/items");
+            res.redirect("/shop"); // Redirect to /shop after adding an item
         }).catch(err => {
             res.status(500).send("Unable to add item");
         });
     }
 });
 
-// Get all published items (shop page)
-app.get("/shop", (req, res) => {
-    storeService.getPublishedItems()
-        .then(items => res.json(items))
-        .catch(err => res.status(404).json({ message: err }));
+app.get("/shop", async (req, res) => {
+    let viewData = {};
+
+    try {
+        let items = req.query.category 
+            ? await storeService.getPublishedItemsByCategory(req.query.category)
+            : await storeService.getPublishedItems();
+
+        items.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
+        viewData.items = items;
+        viewData.item = items[0];
+    } catch (err) {
+        viewData.message = "no results";
+    }
+
+    try {
+        viewData.categories = await storeService.getCategories();
+    } catch (err) {
+        viewData.categoriesMessage = "no results";
+    }
+
+    res.render("shop", { data: viewData });
 });
 
-// Get all items with optional filtering
+app.get('/shop/:id', async (req, res) => {
+    let viewData = {};
+
+    try {
+        let items = [];
+
+        if (req.query.category) {
+            items = await storeService.getPublishedItemsByCategory(req.query.category);
+        } else {
+            items = await storeService.getPublishedItems();
+        }
+
+        items.sort((a,b) => new Date(b.postDate) - new Date(a.postDate));
+
+        viewData.items = items;
+
+    } catch(err) {
+        viewData.message = "no results";
+    }
+
+    try {
+        viewData.item = await storeService.getItemById(req.params.id);
+    } catch(err) {
+        viewData.message = "no results"; 
+    }
+
+    try {
+        let categories = await storeService.getCategories();
+        viewData.categories = categories;
+    } catch(err) {
+        viewData.categoriesMessage = "no results"
+    }
+
+    res.render("shop", {data: viewData})
+});
+
 app.get("/items", (req, res) => {
     if (req.query.category) {
         storeService.getItemsByCategory(req.query.category)
-            .then(items => res.json(items))
-            .catch(err => res.status(404).send(err));
+            .then(items => res.render("items", { items }))
+            .catch(err => res.render("items", { message: "No results found for this category." }));
     } else if (req.query.minDate) {
         storeService.getItemsByMinDate(req.query.minDate)
-            .then(items => res.json(items))
-            .catch(err => res.status(404).send(err));
+            .then(items => res.render("items", { items }))
+            .catch(err => res.render("items", { message: "No results found for this date." }));
     } else {
         storeService.getAllItems()
-            .then(items => res.json(items))
-            .catch(err => res.status(404).json({ message: err }));
+            .then(items => res.render("items", { items }))
+            .catch(err => res.render("items", { message: "No items found." }));
     }
 });
 
-// Get a single item by ID
-app.get("/item/:id", (req, res) => {
-    storeService.getItemById(req.params.id)
-        .then(item => res.json(item))
-        .catch(err => res.status(404).send(err));
-});
-
-// Get all categories
 app.get("/categories", (req, res) => {
     storeService.getCategories()
-        .then(categories => res.json(categories))
-        .catch(err => res.status(404).json({ message: err }));
+        .then(categories => res.render("categories", { categories }))
+        .catch(err => res.render("categories", { message: "no results" }));
 });
 
-// Handle 404 - Page Not Found
+// Custom 404 page
 app.use((req, res) => {
-    res.status(404).send("Page Not Found");
+    res.status(404).render("404");
 });
 
-// Initialize store service and start the server
+// Initialize the server
 storeService.initialize()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server started on http://localhost:${PORT}`);
-        });
-    })
-    .catch(err => {
-        console.log("Failed to initialize store service:", err);
-    });
+    .then(() => app.listen(PORT, () => console.log(`Server started on http://localhost:${PORT}`)))
+    .catch(err => console.log(`Failed to initialize store service: ${err}`));

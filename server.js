@@ -3,8 +3,13 @@ WEB322 – Assignment 04
 I declare that this assignment is my own work in accordance with Seneca Academic Policy. No part * of this assignment has
 been copied manually or electronically from any other source (including 3rd party web sites) or distributed to other students.
 Name: Adharsh Nellikode Kaladharan
+<<<<<<< HEAD
 Student ID: 167892223 
 Date: 05-03-2025
+=======
+Student ID:167892223 
+Date:05-03-2025
+>>>>>>> d72f3dd7b0bfccef1551cf8b5d1c6a7afc8482e3
 Cyclic Web App URL: https://github.senecapolytechnic.ca/pages/anellikodekaladharan/web322app/
 GitHub Repository URL: https://github.com/adharshnk/web322app.git
 ********************************************************************************/
